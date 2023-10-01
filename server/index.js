@@ -1,8 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+
 import path from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
@@ -14,15 +15,24 @@ import {
 createPost
 } from './controllers/posts.js';
 import postRoutes from './routes/postRoutes.js'
+import helmet from 'helmet';
 //CONFIGURATIONS
 const __fileName=fileURLToPath(import.meta.url);
 const __dirname=path.dirname(__fileName);
 
 dotenv.config();
 const app=express();
-app.use(express.json());
-app.use(bodyParser.json());
 app.use(cors());
+
+app.use(bodyParser.json({limit:"50mb",extended:true}));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.json());
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({policy:"cross-origin"}));
+
+
+
+
 
 //setting directory where we keep our assest/images uploaded
 app.use("/assets",express.static(path.join(__dirname,'pubic/assets')));
