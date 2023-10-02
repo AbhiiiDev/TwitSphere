@@ -42,7 +42,7 @@ const loggedIn=await loginResponse.json();
 console.log(loggedIn);
 if(loggedIn)
 {
-  navigate("/");
+  navigate("/home");
   dispatch(setLogin({
     user:loggedIn.user,
     token:loggedIn.token
