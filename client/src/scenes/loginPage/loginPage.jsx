@@ -1,11 +1,16 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
+import FlexBetween from '../../components/FlexBetween';
+
 import * as yup from 'yup';
 import {
+  Box,
   Button,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 
 } from "@mui/material";
 import { useDispatch } from "react-redux";
@@ -22,9 +27,11 @@ const loginSchema = yup.object().shape({
 
 
 export default function loginPage() {
-
+  const { palette } = useTheme();
   const dispatch=useDispatch();
 const navigate=useNavigate();
+const isNonMobile = useMediaQuery("(min-width:600px)");
+
   const loginInitial = {
     email: "",
     password: "",
@@ -77,6 +84,15 @@ await login(values,onSubmitProps);
           resetForm,
         }) => (
           <form onSubmit={handleSubmit}>
+
+<Box
+            display="grid"
+            gap="30px"
+            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+            sx={{
+              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+            }}
+          >
             <TextField
               label="Email"
               onBlur={handleBlur}
@@ -85,7 +101,7 @@ await login(values,onSubmitProps);
               name="email"
               error={Boolean(touched.email) && Boolean(errors.email)}
               helperText={touched.email && errors.email}
-              sx={{ gridColumn: "span 2" }}
+              sx={{ gridColumn: "span 4" }}
             />
             <TextField
               label="Password"
@@ -95,14 +111,20 @@ await login(values,onSubmitProps);
               name="password"
               error={Boolean(touched.password) && Boolean(errors.password)}
               helperText={touched.password && errors.password}
-              sx={{ gridColumn: "span 2" }}
+              sx={{ gridColumn: "span 4" }}
             />
+</Box>
+<Box>
+
 
             <Button
               fullWidth
               sx={{
                 m: "2rem 0",
                 p: "1rem",
+                backgroundColor: palette.primary.main,
+                color: palette.background.alt,
+                "&:hover": { color: palette.primary.main },
               }}
               type="submit"
             >
@@ -115,7 +137,7 @@ await login(values,onSubmitProps);
             >
               Don't have an Account ? <Link to="/registerPage">Sign Up here.</Link>
             </Typography>
-
+</Box>
           </form>
         )}
       </Formik>

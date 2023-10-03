@@ -4,12 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import  {Formik}  from "formik";
 import * as yup from "yup";
 import {
+  Box,
   Button,
   TextField,
+  useMediaQuery,
   Typography,
-
+  useTheme,
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import FlexBetween from "../../components/FlexBetween";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -23,6 +26,8 @@ const registerSchema = yup.object().shape({
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const { palette } = useTheme();
+  const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const registerInitial = {
     firstName: "",
@@ -86,7 +91,17 @@ export default function RegisterPage() {
           setFieldValue,
           resetForm,
         }) => (
+          <div className="container m-3">
+            <h2>Create Your Account Now !</h2>
           <form onSubmit={handleSubmit}>
+           <Box
+            display="grid"
+            gap="30px"
+            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+            sx={{
+              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+            }}
+          >
             <TextField
               label="First Name"
               onBlur={handleBlur}
@@ -147,6 +162,12 @@ export default function RegisterPage() {
               helperText={touched.occupation && errors.occupation}
               sx={{ gridColumn: "span 4" }}
             />
+              <Box
+                  gridColumn="span 4"
+                  border={`1px solid ${palette.neutral.medium}`}
+                  borderRadius="5px"
+                  p="1rem"
+                >
             <Dropzone
               acceptedFiles=".jpg,.jpeg,.png"
               multiple={false}
@@ -157,36 +178,59 @@ export default function RegisterPage() {
             >
               {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps()}>
+                       <Box
+                        {...getRootProps()}
+                        border={`2px dashed ${palette.primary.main}`}
+                        p="1rem"
+                        sx={{ "&:hover": { cursor: "pointer" } }}
+                      >
                   <input {...getInputProps()} />
                   {!values.picture ? (
                     <p>Add Picture Here</p>
                   ) : (
-                    <div>
+                    <FlexBetween>
                       <Typography>{values.picture.name}</Typography>
                       <EditOutlinedIcon />
-                    </div>
+                      </FlexBetween>
                   )}
+                  </Box>
                 </div>
               )}
             </Dropzone>
+            </Box>
+            <Box>
             <Button
               fullWidth
               sx={{
                 m: "2rem 0",
                 p: "1rem",
+                backgroundColor: palette.primary.main,
+                color: palette.background.alt,
+                "&:hover": { color: palette.primary.main },
               }}
               type="submit"
               >
                 Sign Up
                 </Button>
+                </Box>
                 <Typography
               onClick={() => {
                 resetForm();
+              }}
+              sx={{
+                textDecoration: "underline",
+                color: palette.primary.main,
+                "&:hover": {
+                  cursor: "pointer",
+                 
+                },
               }}>
-                 Already have an account ? <Link to='/loginPage'>Login here.</Link>
+                 Already have an account?   <Link to='/loginPage'> Login here.</Link>
               </Typography>
-
+</Box>
           </form>
+          </div>
+       
         )}
       </Formik>
 

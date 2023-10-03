@@ -1,4 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
+import { useNavigate } from "react-router-dom";
 const inititalState = {
   mode: "dark",
   user: null,
@@ -20,6 +21,7 @@ export const authSlice = createSlice({
     setLogout: (state) => {
       state.user = null;
       state.token = null;
+     
     },
     setFriends:(state,action)=>{
         if(state.user)

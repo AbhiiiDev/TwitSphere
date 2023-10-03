@@ -34,7 +34,7 @@ app.use(helmet.crossOriginResourcePolicy({policy:"cross-origin"}));
 
 
 
-//setting directory where we keep our assest/images uploaded
+//setting directory where we keep our images
 app.use("/assets",express.static(path.join(__dirname,'pubic/assets')));
 
 //multer's github readme or npm docs
@@ -49,7 +49,7 @@ const storage=multer.diskStorage({
 })
 const upload =multer({storage});
 
-//ROUTES WITH FILES 
+//ROUTES WITH IMAGES UPLOAD 
 app.post("/auth/register",upload.single('picture'),register);
 app.post("/posts",verifyToken,upload.single("picture"),createPost);
 

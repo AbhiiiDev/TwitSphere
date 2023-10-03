@@ -6,9 +6,11 @@ export const getUser=async(req,res)=>
 {
 
     try {
-        const {id}=req.params(); //params to fetch id from string
+       
+        const {id}=req.params; //params to fetch id from string
+   
         const user=await User.findById(id);
-        res.status(201).json(user);
+        res.status(200).json(user);
     } catch (error) {
         res.status(400).json({message:error.message});
     }
