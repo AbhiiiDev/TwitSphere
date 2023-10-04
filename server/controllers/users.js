@@ -22,6 +22,7 @@ export const getUser=async(req,res)=>
 export const getUserFriends=async(req,res)=> 
 {
  try  {
+
 const {id}=req.params;
 const user=await User.findById(id);
 
@@ -37,6 +38,7 @@ const formattedFriends=friends.map(({
 })
 
 res.status(400).json(formattedFriends);
+console.log('get friends route touched')
 }
 catch(error){
 res.status(404).json({message:error.message})

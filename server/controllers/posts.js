@@ -22,7 +22,7 @@ const newPost=new Post({
 })
 
 await newPost.save();
-
+console.log('create post working');
 const post=await Post.find();
 res.status(201).json(post);
     }catch(error){
@@ -35,8 +35,10 @@ export const userPosts=async(req,res)=>{
 
 try {
     const {userId}=req.params;
+    console.log(userId);
 const post=await Post.findById(userId);
 res.status(200).json(post);
+console.log('user post route touched')
 
 } catch (error) {
     res.status(404).json({message:error.message})
@@ -47,8 +49,11 @@ res.status(200).json(post);
 export const getFeedPosts=async(req,res)=>
 {
 try
-  {  const post=await Post.find();
-    res.status(200).json(post);}
+  { 
+     const post=await Post.find();
+    res.status(200).json(post);
+console.log('get feedpost route touched')
+}
     catch(error)
     {
 res.status(404).json({message:error.message})

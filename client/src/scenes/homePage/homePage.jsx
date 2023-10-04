@@ -36,7 +36,7 @@ const {_id,picturePath}=useSelector((state)=> state.user);
           <Box flexBasis="26%">
             {/* <AdvertWidget /> */}
             <Box m="2rem 0" />
-            <FriendListWidget userId={_id} />
+            {/* <FriendListWidget userId={_id} /> */}
           </Box>
         )}
       </Box>
